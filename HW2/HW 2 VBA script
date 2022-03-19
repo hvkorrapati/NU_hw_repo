@@ -34,12 +34,15 @@ Range("M1").Value = "Percent Yearly Change"
 Dim summary_table_row As Integer
 summary_table_row = 2
 
+'count rows
+numrows = Range("A2", Range("A2").End(xlDown)).Rows.Count
 
 
 
 
 'Loop through all stocks
-For i = 2 To 22772
+For i = 2 To numrows
+
 
 If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
     
