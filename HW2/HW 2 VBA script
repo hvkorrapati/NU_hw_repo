@@ -1,0 +1,116 @@
+Sub stocks():
+
+'Set initial variable for holding stock name
+Dim ticker As String
+
+'Set initial variable for holding yearly change
+Dim yearly_change As Double
+yearly_change = 0
+
+'Set initial variable for holding percent change
+Dim percent_change As Double
+percent_change = 0
+
+'Set initial variable for total volume
+Dim volume As Double
+volume = 0
+
+'set initial variable for opening
+Dim opening As Double
+opening = 0
+
+'set initial variable for closing
+Dim closing As Double
+closing = 0
+
+'set headers
+Range("J1").Value = "Stock Ticker"
+Range("K1").Value = "Total Volume"
+Range("L1").Value = "Yearly Change"
+Range("M1").Value = "Percent Yearly Change"
+
+
+'Keep track of location for each stock in summary table
+Dim summary_table_row As Integer
+summary_table_row = 2
+
+
+
+
+
+'Loop through all stocks
+For i = 2 To 22772
+
+If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+    
+    'Set stock name
+    ticker = Cells(i, 1).Value
+
+    'add volume
+    volume = volume + Cells(i, 7).Value
+
+    'get closing
+    closing = Cells(i, 6).Value
+
+
+    yearly_change = closing - opening
+    percent_change = (closing - opening) / opening
+
+
+    'print ticker in summary table
+    Range("J" & summary_table_row).Value = ticker
+
+    'print volume in summary table
+    Range("K" & summary_table_row).Value = volume
+
+    'print yearly change and format color
+    Range("L" & summary_table_row).Value = yearly_change
+
+    If Range("L" & summary_table_row).Value > 0 Then
+        Range("L" & summary_table_row).Interior.Color = RGB(0, 255, 0)
+        Else: Range("L" & summary_table_row).Interior.Color = RGB(255, 0, 0)
+        
+        End If
+
+    'print percent change and format color
+    Range("M" & summary_table_row).Value = percent_change
+   
+     If Range("M" & summary_table_row).Value > 0 Then
+        Range("M" & summary_table_row).Interior.Color = RGB(0, 255, 0)
+        Else: Range("M" & summary_table_row).Interior.Color = RGB(255, 0, 0)
+        
+        End If
+
+    'add one to summary table row
+    summary_table_row = summary_table_row + 1
+
+    'reset volume
+    volume = 0
+
+    'reset yearly change
+    yearly_change = 0
+    
+    'reset percent change
+    percent_change = 0
+
+
+    
+
+
+    Else
+       'add to volume
+        volume = volume + Cells(i, 7).Value
+        
+        'get opening'
+        If Cells(i - 1, 1).Value <> Cells(i, 1).Value Then
+            opening = Cells(i, 3).Value
+
+            End If
+
+
+
+    End If
+
+Next i
+
+End Sub
